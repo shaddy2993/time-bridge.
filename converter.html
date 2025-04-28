@@ -1,0 +1,112 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Time Bridge - Time Converter</title>
+  <meta name="description" content="Convert time zones instantly with Time Bridge!" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+  </style>
+</head>
+<body class="bg-black text-white p-6 min-h-screen flex flex-col items-center">
+
+  <h1 class="text-4xl font-bold mb-10 mt-6">Time Zone Converter</h1>
+
+  <div class="bg-gray-900 p-6 rounded-2xl w-full max-w-3xl flex flex-col gap-6">
+
+    <div>
+      <label class="block mb-2 font-semibold">Select Source Time Zone:</label>
+      <select id="sourceTimezone" class="text-black w-full p-3 rounded-lg">
+      </select>
+    </div>
+
+    <div>
+      <label class="block mb-2 font-semibold">Select Target Time Zone:</label>
+      <select id="targetTimezone" class="text-black w-full p-3 rounded-lg">
+      </select>
+    </div>
+
+    <div>
+      <label class="block mb-2 font-semibold">Select Date & Time:</label>
+      <input type="datetime-local" id="datetime" class="text-black w-full p-3 rounded-lg" />
+    </div>
+
+    <button onclick="convertTime()" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-full transition">
+      Convert Time
+    </button>
+
+    <div id="result" class="mt-6 text-center text-lg font-semibold"></div>
+
+    <div id="shareOptions" class="hidden mt-6 flex flex-col gap-4 text-center">
+      <button onclick="copyToClipboard()" class="bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg">Copy Converted Time</button>
+      <button onclick="addToGoogleCalendar()" class="bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg">Add to Google Calendar</button>
+    </div>
+
+  </div>
+
+  <script>
+    const timezones = {
+      "GMT-12:00": "International Date Line West",
+      "GMT-8:00": "Pacific Time (Los Angeles, Vancouver)",
+      "GMT-5:00": "Eastern Time (New York, Toronto)",
+      "GMT+0:00": "Greenwich Mean Time (UK, Ireland)",
+      "GMT+1:00": "Germany, France, Spain",
+      "GMT+3:00": "Moscow, Saudi Arabia",
+      "GMT+5:00": "Pakistan, Uzbekistan",
+      "GMT+5.5:00": "India, Sri Lanka",
+      "GMT+8:00": "China, Singapore, Western Australia",
+      "GMT+9:00": "Japan, Korea",
+      "GMT+10:00": "Sydney, Brisbane",
+      "GMT+12:00": "Fiji, New Zealand"
+    };
+
+    const sourceSelect = document.getElementById('sourceTimezone');
+    const targetSelect = document.getElementById('targetTimezone');
+
+    for (let tz in timezones) {
+      sourceSelect.innerHTML += `<option value="${tz}">${tz} — ${timezones[tz]}</option>`;
+      targetSelect.innerHTML += `<option value="${tz}">${tz} — ${timezones[tz]}</option>`;
+    }
+
+    function convertTime() {
+      const source = parseFloat(sourceSelect.value.replace('GMT', ''));
+      const target = parseFloat(targetSelect.value.replace('GMT', ''));
+      const dateInput = document.getElementById('datetime').value;
+      if (!dateInput) {
+        alert("Please select date and time.");
+        return;
+      }
+
+      const inputDate = new Date(dateInput);
+      const utcTime = inputDate.getTime() - (source * 60 * 60 * 1000);
+      const targetTime = new Date(utcTime + (target * 60 * 60 * 1000));
+
+      const formatted = targetTime.toLocaleString('en-US', { timeZone: 'UTC', hour12: true });
+      document.getElementById('result').innerText = `Converted Time: ${formatted}`;
+      document.getElementById('shareOptions').classList.remove('hidden');
+      window.convertedTime = formatted;
+    }
+
+    function copyToClipboard() {
+      navigator.clipboard.writeText(window.convertedTime);
+      alert('Converted time copied to clipboard!');
+    }
+
+    function addToGoogleCalendar() {
+      const title = encodeURIComponent('Meeting');
+      const details = encodeURIComponent('Scheduled via Time Bridge.');
+      const location = encodeURIComponent('Online');
+      const startDate = new Date().toISOString().replace(/-|:|\.\d+/g, "");
+      const endDate = new Date(new Date().getTime() + 30 * 60 * 1000).toISOString().replace(/-|:|\.\d+/g, "");
+      const url = `https://www.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&location=${location}&dates=${startDate}/${endDate}`;
+
+      window.open(url, '_blank');
+    }
+  </script>
+
+</body>
+</html>
