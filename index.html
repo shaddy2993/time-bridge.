@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Time Bridge – Time Zone Converter</title>
   <meta name="description" content="Easily convert and share meeting times across time zones. Schedule smartly with Time Bridge!" />
   <link rel="icon" type="image/png" href="favicon.png" />
@@ -12,37 +12,52 @@
     body { font-family: 'Inter', sans-serif; }
 
     .clock {
-      width: 50px;
-      height: 50px;
-      border: 3px solid white;
+      width: 120px;
+      height: 120px;
+      border: 6px solid white;
       border-radius: 50%;
       position: relative;
       background: black;
+      margin: auto;
     }
 
     .hand {
       position: absolute;
-      width: 50%;
       background: white;
       top: 50%;
-      transform-origin: 100%;
-      transform: rotate(90deg);
+      left: 50%;
+      transform-origin: 50% 50%;
+      transform: translate(-50%, -50%) rotate(90deg);
     }
 
     .hour {
-      height: 3px;
-      left: 50%;
+      height: 4px;
+      width: 30%;
+      transform-origin: 100%;
     }
 
     .minute {
-      height: 2px;
-      left: 50%;
+      height: 3px;
+      width: 40%;
+      transform-origin: 100%;
     }
 
     .second {
-      height: 1px;
+      height: 2px;
+      width: 45%;
       background: red;
+      transform-origin: 100%;
+    }
+
+    .center-circle {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: white;
+      border-radius: 50%;
+      top: 50%;
       left: 50%;
+      transform: translate(-50%, -50%);
     }
   </style>
 </head>
@@ -56,6 +71,7 @@
         <div class="hand hour" id="hour"></div>
         <div class="hand minute" id="minute"></div>
         <div class="hand second" id="second"></div>
+        <div class="center-circle"></div>
       </div>
       <span>Bridge</span>
     </h1>
@@ -93,9 +109,9 @@
       const minute = now.getMinutes() * 6;
       const hour = ((now.getHours() % 12) + now.getMinutes() / 60) * 30;
 
-      document.getElementById('second').style.transform = `rotate(${second}deg)`;
-      document.getElementById('minute').style.transform = `rotate(${minute}deg)`;
-      document.getElementById('hour').style.transform = `rotate(${hour}deg)`;
+      document.getElementById('second').style.transform = `translate(-50%, -50%) rotate(${second}deg)`;
+      document.getElementById('minute').style.transform = `translate(-50%, -50%) rotate(${minute}deg)`;
+      document.getElementById('hour').style.transform = `translate(-50%, -50%) rotate(${hour}deg)`;
     }
 
     setInterval(updateClock, 1000);
