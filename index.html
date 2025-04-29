@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,19 +8,117 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body { font-family: 'Inter', sans-serif; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to right, #4e00a3, #8e2de2);
+      color: white;
+    }
+    .hero {
+      background: url('https://source.unsplash.com/1600x900/?time-zone') center/cover no-repeat;
+      min-height: 50vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      border-radius: 10px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+    }
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: bold;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    .hero p {
+      font-size: 1.25rem;
+      margin-top: 10px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    .cta-button {
+      background-color: #6a0dad;
+      color: white;
+      padding: 15px 30px;
+      font-size: 1.25rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      border-radius: 50px;
+      transition: background-color 0.3s ease;
+    }
+    .cta-button:hover {
+      background-color: #5a009d;
+    }
+    .features {
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 4rem 2rem;
+      border-radius: 10px;
+      max-width: 1100px;
+      margin: 4rem auto;
+      text-align: center;
+    }
+    .features h2 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #8e2de2;
+      margin-bottom: 2rem;
+    }
+    .features ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    .features li {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+      font-size: 1.1rem;
+    }
+    .features li svg {
+      color: #6a0dad;
+      margin-right: 15px;
+      width: 24px;
+      height: 24px;
+    }
+    .cta-button-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
   </style>
 </head>
-<body class="bg-black text-white min-h-screen flex flex-col justify-center items-center text-center p-6">
+<body class="font-sans">
 
-  <section class="mb-10">
-    <h1 class="text-5xl font-bold mb-6">Time Bridge</h1>
-    <p class="text-xl max-w-xl mb-8">
-      Time Bridge makes scheduling across time zones simple! Instantly convert your meeting times, share them, or add them to Google Calendar with ease.
-    </p>
-    <a href="./converter.html" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-full transition">
-      Launch Time Converter
-    </a>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="text-white text-center px-4">
+      <h1 class="text-3xl md:text-5xl font-bold mb-4">Welcome to Time Bridge</h1>
+      <p class="text-lg md:text-xl mb-6">
+        Your go-to solution for converting meeting times across time zones and managing them efficiently.
+      </p>
+      <div class="cta-button-container">
+        <a href="./converter.html" class="cta-button">Start Converting</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+    <h2>Key Features</h2>
+    <ul>
+      <li>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6M9 12l3 3m-3-3l-3-3m0 6v4m9-8V5a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V10z" /></svg>
+        <span>Accurate time zone conversion for any meeting or event</span>
+      </li>
+      <li>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
+        <span>Daylight Saving Time (DST) handled automatically</span>
+      </li>
+      <li>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14m7-7H5" /></svg>
+        <span>Seamless Google Calendar integration for quick scheduling</span>
+      </li>
+      <li>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h3M3 10l3 3m-3-3l-3-3M12 10h9M12 10l3 3m-3-3l-3-3M12 14h9" /></svg>
+        <span>Modern, intuitive user interface optimized for both mobile and desktop</span>
+      </li>
+    </ul>
   </section>
 
 </body>
