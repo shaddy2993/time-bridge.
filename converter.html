@@ -5,103 +5,270 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Time Bridge - Time Converter</title>
   <meta name="description" content="Easily convert and share meeting times across time zones. Schedule smartly with Time Bridge!" />
-  <link rel="icon" href="logo.png" type="image/png">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    body { font-family: 'Inter', sans-serif; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, rgba(100, 82, 255, 1) 0%, rgba(0, 0, 0, 1) 100%);
+      background-size: 400% 400%;
+      animation: gradient 15s ease infinite;
+      min-height: 100vh;
+    }
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .converter-card {
+      background-color: rgba(31, 41, 55, 0.85);
+      padding: 2.5rem;
+      border-radius: 20px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(114, 93, 255, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      width: 100%;
+      max-width: 800px;
+    }
+
+    .converter-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
     select, input[type="datetime-local"] {
-      background-color: white;
-      color: black;
+      background-color: rgba(255, 255, 255, 0.9);
+      color: #111827;
+      padding: 1rem;
+      border-radius: 12px;
+      border: none;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+
+    select:focus, input[type="datetime-local"]:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(114, 93, 255, 0.5);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, rgba(114, 93, 255, 1) 0%, rgba(0, 94, 255, 1) 100%);
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 30px;
+      font-weight: bold;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      border: none;
+      cursor: pointer;
+      text-transform: uppercase;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(135deg, rgba(38, 104, 255, 1) 0%, rgba(0, 79, 255, 1) 100%);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 25px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-3px);
+    }
+
+    .text-gradient {
+      background: linear-gradient(90deg, rgba(114, 93, 255, 1) 0%, rgba(0, 94, 255, 1) 100%);
+      -webkit-background-clip: text;
+      color: transparent;
+      font-weight: 700;
+    }
+
+    .result-display {
+      font-size: 1.5rem;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 1.5rem;
+      border-radius: 15px;
+      border-left: 4px solid rgba(114, 93, 255, 1);
+      margin: 1.5rem 0;
+    }
+
+    .logo {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(to right, rgba(114, 93, 255, 1), #ffffff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 1rem;
+    }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+      .converter-card {
+        padding: 1.5rem;
+      }
+      
+      .logo {
+        font-size: 2rem;
+      }
+      
+      .result-display {
+        font-size: 1.2rem;
+        padding: 1rem;
+      }
+      
+      .btn-primary {
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+      }
     }
   </style>
 </head>
 
-<body class="bg-black text-white p-6 min-h-screen flex flex-col items-center">
+<body class="text-white p-6 flex flex-col items-center min-h-screen">
 
   <!-- Logo -->
-  <div class="flex items-center gap-3 mb-8 mt-4">
-    <h1 class="text-4xl font-bold">Time Bridge</h1>
+  <div class="flex flex-col items-center mb-8">
+    <h1 class="logo">Time Bridge</h1>
+    <p class="text-gray-300">Time Zone Converter</p>
   </div>
 
   <!-- Converter Card -->
-  <div class="bg-gray-900 p-8 rounded-3xl w-full max-w-3xl flex flex-col gap-8 shadow-lg">
+  <div class="converter-card">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+      <div>
+        <label class="block mb-3 font-semibold text-lg"><i class="fas fa-globe-americas mr-2"></i>Source Time Zone:</label>
+        <select id="sourceTimezone" class="focus:ring-2 focus:ring-purple-500">
+          <!-- Options will be inserted by JS -->
+        </select>
+      </div>
 
-    <div>
-      <label class="block mb-2 font-semibold">Source Time Zone:</label>
-      <select id="sourceTimezone" class="w-full p-3 rounded-lg text-black">
-        <!-- Options will be inserted by JS -->
-      </select>
+      <div>
+        <label class="block mb-3 font-semibold text-lg"><i class="fas fa-map-marker-alt mr-2"></i>Target Time Zone:</label>
+        <select id="targetTimezone" class="focus:ring-2 focus:ring-purple-500">
+          <!-- Options will be inserted by JS -->
+        </select>
+      </div>
     </div>
 
-    <div>
-      <label class="block mb-2 font-semibold">Target Time Zone:</label>
-      <select id="targetTimezone" class="w-full p-3 rounded-lg text-black">
-        <!-- Options will be inserted by JS -->
-      </select>
+    <div class="mb-6">
+      <label class="block mb-3 font-semibold text-lg"><i class="far fa-calendar-alt mr-2"></i>Date & Time:</label>
+      <input type="datetime-local" id="datetime" class="focus:ring-2 focus:ring-purple-500" />
     </div>
 
-    <div>
-      <label class="block mb-2 font-semibold">Select Date & Time:</label>
-      <input type="datetime-local" id="datetime" class="w-full p-3 rounded-lg text-black" />
-    </div>
-
-    <div>
-      <label class="block mb-2 font-semibold">Recurring:</label>
-      <select id="recurring" class="w-full p-3 rounded-lg text-black">
+    <div class="mb-8">
+      <label class="block mb-3 font-semibold text-lg"><i class="fas fa-redo mr-2"></i>Recurring:</label>
+      <select id="recurring" class="focus:ring-2 focus:ring-purple-500">
         <option value="none">None</option>
         <option value="daily">Daily</option>
         <option value="weekly">Weekly</option>
+        <option value="monthly">Monthly</option>
       </select>
     </div>
 
-    <button onclick="convertTime()" class="bg-purple-600 hover:bg-purple-700 transition transform hover:scale-105 font-bold py-3 px-8 rounded-full text-white text-lg">
-      Convert Time
+    <button onclick="convertTime()" class="btn-primary w-full py-4">
+      <i class="fas fa-exchange-alt mr-2"></i> Convert Time
     </button>
 
-    <div id="result" class="mt-6 text-center text-xl font-semibold"></div>
-
-    <div id="shareOptions" class="hidden mt-6 flex flex-col gap-4 text-center">
-      <button onclick="copyToClipboard()" class="bg-green-600 hover:bg-green-700 transition transform hover:scale-105 py-3 rounded-lg font-bold">Copy Converted Time</button>
-      <button onclick="addToGoogleCalendar()" class="bg-blue-600 hover:bg-blue-700 transition transform hover:scale-105 py-3 rounded-lg font-bold">Add to Google Calendar</button>
+    <div id="result" class="result-display hidden text-center">
+      <i class="fas fa-clock mr-2"></i><span id="convertedTimeText"></span>
     </div>
 
+    <div id="shareOptions" class="hidden mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+      <button onclick="copyToClipboard()" class="btn-secondary">
+        <i class="far fa-copy mr-2"></i> Copy to Clipboard
+      </button>
+      <button onclick="addToGoogleCalendar()" class="btn-secondary">
+        <i class="fab fa-google mr-2"></i> Add to Google Calendar
+      </button>
+    </div>
   </div>
 
   <script>
-    const timezones = {
-      "GMT-12:00": "International Date Line West",
-      "GMT-11:00": "Midway Island, Samoa",
-      "GMT-10:00": "Hawaii",
-      "GMT-09:00": "Alaska",
-      "GMT-08:00": "Pacific Time (US & Canada)",
-      "GMT-07:00": "Mountain Time (US & Canada)",
-      "GMT-06:00": "Central Time (US & Canada)",
-      "GMT-05:00": "Eastern Time (US & Canada)",
-      "GMT-03:00": "Brazil, Buenos Aires",
-      "GMT+00:00": "London, Dublin, Lisbon",
-      "GMT+01:00": "Berlin, Paris, Rome",
-      "GMT+03:00": "Moscow, Nairobi",
-      "GMT+05:00": "Pakistan, Uzbekistan",
-      "GMT+05:30": "India, Sri Lanka",
-      "GMT+07:00": "Bangkok, Vietnam",
-      "GMT+08:00": "China, Singapore",
-      "GMT+09:00": "Tokyo, Korea",
-      "GMT+10:00": "Sydney, Brisbane",
-      "GMT+12:00": "Fiji, New Zealand"
-    };
+    // Timezone data with more detailed locations
+    const timezones = [
+      { offset: "-12:00", name: "International Date Line West", location: "Baker Island, Howland Island" },
+      { offset: "-11:00", name: "Samoa Time Zone", location: "Midway Island, Samoa" },
+      { offset: "-10:00", name: "Hawaii-Aleutian", location: "Hawaii, Aleutian Islands" },
+      { offset: "-09:00", name: "Alaska Time Zone", location: "Alaska (most)" },
+      { offset: "-08:00", name: "Pacific Time", location: "US West Coast, Vancouver" },
+      { offset: "-07:00", name: "Mountain Time", location: "Denver, Phoenix, Edmonton" },
+      { offset: "-06:00", name: "Central Time", location: "Chicago, Mexico City, Winnipeg" },
+      { offset: "-05:00", name: "Eastern Time", location: "New York, Toronto, Bogotá" },
+      { offset: "-04:00", name: "Atlantic Time", location: "Halifax, Santiago, Caracas" },
+      { offset: "-03:00", name: "Argentina Time", location: "Buenos Aires, São Paulo" },
+      { offset: "+00:00", name: "Greenwich Mean", location: "London, Dublin, Lisbon" },
+      { offset: "+01:00", name: "Central European", location: "Paris, Berlin, Rome" },
+      { offset: "+02:00", name: "Eastern European", location: "Athens, Cairo, Helsinki" },
+      { offset: "+03:00", name: "Moscow Time", location: "Moscow, Istanbul, Nairobi" },
+      { offset: "+04:00", name: "Gulf Standard", location: "Dubai, Baku, Tbilisi" },
+      { offset: "+05:00", name: "Pakistan Standard", location: "Karachi, Tashkent" },
+      { offset: "+05:30", name: "India Standard", location: "Mumbai, Delhi, Colombo" },
+      { offset: "+07:00", name: "Indochina Time", location: "Bangkok, Hanoi, Jakarta" },
+      { offset: "+08:00", name: "China Standard", location: "Beijing, Singapore, Perth" },
+      { offset: "+09:00", name: "Japan Standard", location: "Tokyo, Seoul, Pyongyang" },
+      { offset: "+10:00", name: "Australian Eastern", location: "Sydney, Brisbane, Guam" },
+      { offset: "+12:00", name: "New Zealand Standard", location: "Auckland, Fiji, Marshall Islands" }
+    ];
 
+    // Populate timezone selects
     const sourceSelect = document.getElementById('sourceTimezone');
     const targetSelect = document.getElementById('targetTimezone');
 
-    for (let tz in timezones) {
-      sourceSelect.innerHTML += `<option value="${tz}">${tz} — ${timezones[tz]}</option>`;
-      targetSelect.innerHTML += `<option value="${tz}">${tz} — ${timezones[tz]}</option>`;
+    // Set default timezones (Eastern and Pacific)
+    let defaultSource = "-05:00";
+    let defaultTarget = "-08:00";
+
+    timezones.forEach(tz => {
+      const optionText = `(GMT${tz.offset}) ${tz.name} — ${tz.location}`;
+      const sourceOption = new Option(optionText, tz.offset);
+      const targetOption = new Option(optionText, tz.offset);
+      
+      if (tz.offset === defaultSource) sourceOption.selected = true;
+      if (tz.offset === defaultTarget) targetOption.selected = true;
+      
+      sourceSelect.add(sourceOption);
+      targetSelect.add(targetOption);
+    });
+
+    // Set default datetime to now
+    function setDefaultDateTime() {
+      const now = new Date();
+      // Round minutes to nearest 15
+      const minutes = Math.round(now.getMinutes() / 15) * 15;
+      now.setMinutes(minutes);
+      
+      // Format for datetime-local input
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const hours = String(now.getHours()).padStart(2, '0');
+      const mins = String(now.getMinutes()).padStart(2, '0');
+      
+      document.getElementById('datetime').value = `${year}-${month}-${day}T${hours}:${mins}`;
     }
 
+    setDefaultDateTime();
+
+    // Time conversion function
     function convertTime() {
-      const source = parseFloat(sourceSelect.value.replace('GMT', ''));
-      const target = parseFloat(targetSelect.value.replace('GMT', ''));
+      const sourceOffset = parseFloat(document.getElementById('sourceTimezone').value);
+      const targetOffset = parseFloat(document.getElementById('targetTimezone').value);
       const dateInput = document.getElementById('datetime').value;
       const recurrence = document.getElementById('recurring').value;
 
@@ -111,40 +278,87 @@
       }
 
       const inputDate = new Date(dateInput);
-      const utcTime = inputDate.getTime() - (source * 60 * 60 * 1000);
-      const targetTime = new Date(utcTime + (target * 60 * 60 * 1000));
-
-      const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute:'2-digit', hour12: true, timeZone: 'UTC' };
-      const formatted = targetTime.toLocaleString('en-US', options);
-
-      document.getElementById('result').innerText = `Converted Time: ${formatted}` +
-        (recurrence !== "none" ? ` (Repeats ${recurrence})` : '');
       
-      window.convertedTime = formatted;
+      // Calculate UTC time (source time minus its offset)
+      const utcTime = inputDate.getTime() - (sourceOffset * 60 * 60 * 1000);
+      
+      // Calculate target time (UTC time plus target offset)
+      const targetTime = new Date(utcTime + (targetOffset * 60 * 60 * 1000));
+
+      // Format the result nicely
+      const options = { 
+        weekday: 'long',
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric', 
+        hour: '2-digit', 
+        minute:'2-digit',
+        hour12: true,
+        timeZone: 'UTC'
+      };
+      
+      const formatted = targetTime.toLocaleString('en-US', options);
+      const sourceTz = sourceSelect.options[sourceSelect.selectedIndex].text.split('—')[1].trim();
+      const targetTz = targetSelect.options[targetSelect.selectedIndex].text.split('—')[1].trim();
+
+      const resultText = `${inputDate.toLocaleString('en-US', options)} (${sourceTz}) → 
+                         ${formatted} (${targetTz})${recurrence !== "none" ? ` (Repeats ${recurrence})` : ''}`;
+
+      document.getElementById('convertedTimeText').innerText = resultText;
+      document.getElementById('result').classList.remove('hidden');
+      
+      // Store for sharing
+      window.convertedTime = resultText;
       window.recurrenceType = recurrence;
+      window.targetTimeISO = targetTime.toISOString();
+      
+      // Show share options
       document.getElementById('shareOptions').classList.remove('hidden');
     }
 
+    // Copy to clipboard function
     function copyToClipboard() {
-      navigator.clipboard.writeText(window.convertedTime);
-      alert('Converted time copied to clipboard!');
+      navigator.clipboard.writeText(window.convertedTime)
+        .then(() => {
+          const copyBtn = document.querySelector('button[onclick="copyToClipboard()"]');
+          const originalText = copyBtn.innerHTML;
+          copyBtn.innerHTML = '<i class="fas fa-check mr-2"></i> Copied!';
+          setTimeout(() => {
+            copyBtn.innerHTML = originalText;
+          }, 2000);
+        })
+        .catch(err => {
+          alert('Failed to copy: ' + err);
+        });
     }
 
+    // Add to Google Calendar function
     function addToGoogleCalendar() {
-      const title = encodeURIComponent('Meeting via Time Bridge');
-      const details = encodeURIComponent('Scheduled with Time Bridge App');
+      const title = encodeURIComponent('Meeting (Scheduled via Time Bridge)');
+      const details = encodeURIComponent('Time converted using Time Bridge\n\n' + window.convertedTime);
       const location = encodeURIComponent('Online');
       
-      const startDate = new Date().toISOString().replace(/-|:|\.\d+/g, "");
-      const endDate = new Date(new Date().getTime() + 30 * 60000).toISOString().replace(/-|:|\.\d+/g, "");
+      // Format dates for Google Calendar (YYYYMMDDTHHMMSSZ)
+      const startDate = new Date(window.targetTimeISO).toISOString().replace(/-|:|\.\d+/g, "");
+      const endDate = new Date(new Date(window.targetTimeISO).getTime() + 60 * 60000).toISOString().replace(/-|:|\.\d+/g, "");
       
-      const recurrence = window.recurrenceType !== "none" ? `&recur=RRULE:FREQ=${window.recurrenceType.toUpperCase()}` : "";
+      // Handle recurrence
+      let recurrenceParam = "";
+      if (window.recurrenceType !== "none") {
+        recurrenceParam = `&recur=RRULE:FREQ=${window.recurrenceType.toUpperCase()}`;
+      }
 
-      const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&location=${location}&dates=${startDate}/${endDate}${recurrence}`;
+      const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&location=${location}&dates=${startDate}/${endDate}${recurrenceParam}`;
       
       window.open(url, '_blank');
     }
-  </script>
 
+    // Convert on Enter key press
+    document.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        convertTime();
+      }
+    });
+  </script>
 </body>
 </html>
