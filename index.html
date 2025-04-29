@@ -3,145 +3,123 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Time Bridge - Sign Up/Login</title>
-  <meta name="description" content="Easily convert and share meeting times across time zones. Schedule smartly with Time Bridge!" />
+  <title>Time Bridge - Easy Meeting Time Conversion</title>
+  <meta name="description" content="Time Bridge helps you easily convert meeting times across time zones and share or add to your calendar!" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Add Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
   <style>
-    body { font-family: 'Inter', sans-serif; }
-    .hidden { display: none; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to right, #4e00a3, #8e2de2);
+      color: white;
+    }
+    .hero {
+      background: url('https://source.unsplash.com/1600x900/?time-zone') center/cover no-repeat;
+      min-height: 50vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      border-radius: 10px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+    }
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: bold;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    .hero p {
+      font-size: 1.25rem;
+      margin-top: 10px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    .cta-button {
+      background-color: #6a0dad;
+      color: white;
+      padding: 15px 30px;
+      font-size: 1.25rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      border-radius: 50px;
+      transition: background-color 0.3s ease;
+    }
+    .cta-button:hover {
+      background-color: #5a009d;
+    }
+    .features {
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 4rem 2rem;
+      border-radius: 10px;
+      max-width: 1100px;
+      margin: 4rem auto;
+      text-align: center;
+    }
+    .features h2 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #8e2de2;
+      margin-bottom: 2rem;
+    }
+    .features ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    .features li {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+      font-size: 1.1rem;
+    }
+    .features li svg {
+      color: #6a0dad;
+      margin-right: 15px;
+      width: 24px;
+      height: 24px;
+    }
+    .cta-button-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
   </style>
 </head>
+<body class="font-sans">
 
-<body class="bg-black text-white p-6 min-h-screen flex flex-col items-center justify-center">
-
-  <div class="flex items-center gap-3 mb-8 mt-4">
-    <h1 class="text-4xl font-bold">Time Bridge</h1>
-  </div>
-
-  <!-- Authentication Form -->
-  <div id="authForm" class="bg-gray-900 p-8 rounded-3xl w-full max-w-lg flex flex-col gap-8 shadow-lg">
-    <h2 class="text-2xl font-semibold text-center">Sign Up or Log In</h2>
-
-    <!-- Sign Up Form -->
-    <div id="signUpForm" class="flex flex-col gap-4">
-      <label for="email" class="block mb-2 font-semibold">Email:</label>
-      <input type="email" id="email" placeholder="Email" class="w-full p-3 rounded-lg" required>
-      <label for="password" class="block mb-2 font-semibold">Password:</label>
-      <input type="password" id="password" placeholder="Password" class="w-full p-3 rounded-lg" required>
-      <button onclick="signUp()" class="bg-purple-600 hover:bg-purple-700 transition transform hover:scale-105 font-bold py-3 px-8 rounded-full text-white">Sign Up</button>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="text-white text-center px-4">
+      <h1 class="text-3xl md:text-5xl font-bold mb-4">Welcome to Time Bridge</h1>
+      <p class="text-lg md:text-xl mb-6">
+        Your go-to solution for converting meeting times across time zones and managing them efficiently.
+      </p>
+      <div class="cta-button-container">
+        <a href="./converter.html" class="cta-button">Start Converting</a>
+      </div>
     </div>
+  </section>
 
-    <!-- Login Form -->
-    <div id="loginForm" class="flex flex-col gap-4 hidden">
-      <label for="email" class="block mb-2 font-semibold">Email:</label>
-      <input type="email" id="loginEmail" placeholder="Email" class="w-full p-3 rounded-lg" required>
-      <label for="password" class="block mb-2 font-semibold">Password:</label>
-      <input type="password" id="loginPassword" placeholder="Password" class="w-full p-3 rounded-lg" required>
-      <button onclick="login()" class="bg-purple-600 hover:bg-purple-700 transition transform hover:scale-105 font-bold py-3 px-8 rounded-full text-white">Log In</button>
-    </div>
-
-    <!-- Google Sign-In Button -->
-    <div id="googleSignIn" class="flex flex-col gap-4 hidden">
-      <button onclick="googleSignIn()" class="bg-blue-600 hover:bg-blue-700 transition transform hover:scale-105 py-3 px-8 rounded-full text-white">Sign In with Google</button>
-    </div>
-    
-    <!-- Error Message -->
-    <div id="errorMessage" class="hidden text-red-500 text-center"></div>
-  </div>
-
-  <!-- Success/Logged-In UI -->
-  <div id="loggedInUI" class="hidden">
-    <h2 class="text-2xl font-semibold text-center">Welcome to Time Bridge!</h2>
-    <p class="text-center mb-4">You are logged in. Proceed to Time Converter.</p>
-    <a href="converter.html" class="bg-green-600 hover:bg-green-700 py-3 px-8 rounded-full text-white text-lg">Go to Time Converter</a>
-  </div>
-
-  <!-- Firebase Authentication SDK -->
-  <script>
-    // Firebase configuration
-    const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_AUTH_DOMAIN",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_STORAGE_BUCKET",
-      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-      appId: "YOUR_APP_ID"
-    };
-
-    // Initialize Firebase
-    const app = firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-
-    // Sign up function
-    function signUp() {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      
-      auth.createUserWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-          const user = userCredential.user;
-          showLoggedInUI(user);
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          document.getElementById("errorMessage").textContent = errorMessage;
-          document.getElementById("errorMessage").classList.remove("hidden");
-        });
-    }
-
-    // Login function
-    function login() {
-      const email = document.getElementById("loginEmail").value;
-      const password = document.getElementById("loginPassword").value;
-
-      auth.signInWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-          const user = userCredential.user;
-          showLoggedInUI(user);
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          document.getElementById("errorMessage").textContent = errorMessage;
-          document.getElementById("errorMessage").classList.remove("hidden");
-        });
-    }
-
-    // Google Sign-In function
-    function googleSignIn() {
-      const provider = new firebase.auth.GoogleAuthProvider();
-      auth.signInWithPopup(provider)
-        .then((result) => {
-          const user = result.user;
-          showLoggedInUI(user);
-        })
-        .catch((error) => {
-          const errorMessage = error.message;
-          document.getElementById("errorMessage").textContent = errorMessage;
-          document.getElementById("errorMessage").classList.remove("hidden");
-        });
-    }
-
-    // Show Logged-in UI
-    function showLoggedInUI(user) {
-      document.getElementById("authForm").classList.add("hidden");
-      document.getElementById("loggedInUI").classList.remove("hidden");
-    }
-
-    // Monitor authentication state
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        showLoggedInUI(user);
-      } else {
-        document.getElementById("authForm").classList.remove("hidden");
-      }
-    });
-  </script>
+  <!-- Features Section -->
+  <section class="features">
+    <h2>Key Features</h2>
+    <ul>
+      <li>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6M9 12l3 3m-3-3l-3-3m0 6v4m9-8V5a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V10z" /></svg>
+        <span>Accurate time zone conversion for any meeting or event</span>
+      </li>
+      <li>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
+        <span>Daylight Saving Time (DST) handled automatically</span>
+      </li>
+      <li>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14m7-7H5" /></svg>
+        <span>Seamless Google Calendar integration for quick scheduling</span>
+      </li>
+      <li>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h3M3 10l3 3m-3-3l-3-3M12 10h9M12 10l3 3m-3-3l-3-3M12 14h9" /></svg>
+        <span>Modern, intuitive user interface optimized for both mobile and desktop</span>
+      </li>
+    </ul>
+  </section>
 
 </body>
 </html>
