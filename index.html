@@ -2,110 +2,104 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Time Bridge</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Time Bridge – Time Zone Converter</title>
   <meta name="description" content="Easily convert and share meeting times across time zones. Schedule smartly with Time Bridge!" />
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body { font-family: 'Inter', sans-serif; }
+
     .clock {
-      width: 100px;
-      height: 100px;
-      border: 4px solid white;
+      width: 50px;
+      height: 50px;
+      border: 3px solid white;
       border-radius: 50%;
       position: relative;
-      margin-left: 20px;
+      background: black;
     }
 
     .hand {
       position: absolute;
-      bottom: 50%;
-      left: 50%;
-      transform-origin: bottom;
-      background-color: white;
-    }
-
-    .hour { width: 4px; height: 25%; z-index: 3; }
-    .minute { width: 3px; height: 35%; z-index: 2; }
-    .second { width: 2px; height: 45%; background-color: red; z-index: 1; }
-
-    .center-dot {
-      width: 8px;
-      height: 8px;
-      background-color: white;
-      border-radius: 50%;
-      position: absolute;
+      width: 50%;
+      background: white;
       top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 4;
+      transform-origin: 100%;
+      transform: rotate(90deg);
     }
 
-    .number {
-      position: absolute;
-      color: white;
-      font-size: 12px;
-      font-weight: bold;
-      transform: translate(-50%, -50%);
+    .hour {
+      height: 3px;
+      left: 50%;
+    }
+
+    .minute {
+      height: 2px;
+      left: 50%;
+    }
+
+    .second {
+      height: 1px;
+      background: red;
+      left: 50%;
     }
   </style>
 </head>
-
 <body class="bg-black text-white p-6 min-h-screen flex flex-col items-center">
 
-  <!-- Logo and Clock -->
-  <div class="flex flex-col items-center mb-8 mt-4">
-    <div class="flex items-center gap-4">
-      <h1 class="text-4xl font-bold">Time Bridge</h1>
+  <!-- Hero -->
+  <div class="text-center mt-12">
+    <h1 class="text-5xl font-bold flex items-center justify-center gap-4">
+      <span>Time</span>
       <div class="clock" id="clock">
-        <!-- Numbers -->
-        <div class="number" style="top: 10%; left: 50%;">12</div>
-        <div class="number" style="top: 20%; left: 85%;">1</div>
-        <div class="number" style="top: 35%; left: 95%;">2</div>
-        <div class="number" style="top: 50%; left: 100%;">3</div>
-        <div class="number" style="top: 65%; left: 95%;">4</div>
-        <div class="number" style="top: 80%; left: 85%;">5</div>
-        <div class="number" style="top: 90%; left: 50%;">6</div>
-        <div class="number" style="top: 80%; left: 15%;">7</div>
-        <div class="number" style="top: 65%; left: 5%;">8</div>
-        <div class="number" style="top: 50%; left: 0%;">9</div>
-        <div class="number" style="top: 35%; left: 5%;">10</div>
-        <div class="number" style="top: 20%; left: 15%;">11</div>
-        <!-- Hands -->
-        <div class="hand hour" id="hourHand"></div>
-        <div class="hand minute" id="minuteHand"></div>
-        <div class="hand second" id="secondHand"></div>
-        <div class="center-dot"></div>
+        <div class="hand hour" id="hour"></div>
+        <div class="hand minute" id="minute"></div>
+        <div class="hand second" id="second"></div>
       </div>
-    </div>
-    <p class="text-sm mt-2 text-gray-400">Your time companion</p>
+      <span>Bridge</span>
+    </h1>
+    <p class="mt-4 text-lg text-gray-300 max-w-xl mx-auto">
+      Easily convert and share meeting times across time zones.
+    </p>
+    <a href="converter.html" class="inline-block mt-8 bg-purple-600 hover:bg-purple-700 transition transform hover:scale-105 font-bold py-3 px-8 rounded-full text-white text-lg">
+      Start Converting
+    </a>
   </div>
 
-  <!-- Start Button -->
-  <a href="converter.html" class="bg-purple-600 hover:bg-purple-700 transition transform hover:scale-105 font-bold py-3 px-10 rounded-full text-white text-lg shadow-lg">
-    Start Converting
-  </a>
+  <!-- Features -->
+  <section class="mt-20 w-full max-w-4xl">
+    <h2 class="text-3xl font-bold mb-8 text-center">Features</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+      <div class="bg-gray-900 p-6 rounded-xl shadow">
+        <h3 class="text-xl font-semibold mb-2">Time Conversion</h3>
+        <p class="text-gray-400">Convert times across global time zones in seconds.</p>
+      </div>
+      <div class="bg-gray-900 p-6 rounded-xl shadow">
+        <h3 class="text-xl font-semibold mb-2">Google Calendar</h3>
+        <p class="text-gray-400">Add converted times directly to your calendar.</p>
+      </div>
+      <div class="bg-gray-900 p-6 rounded-xl shadow">
+        <h3 class="text-xl font-semibold mb-2">Recurring Meetings</h3>
+        <p class="text-gray-400">Set daily or weekly recurring schedules easily.</p>
+      </div>
+    </div>
+  </section>
 
   <script>
     function updateClock() {
       const now = new Date();
-      const second = now.getSeconds();
-      const minute = now.getMinutes();
-      const hour = now.getHours();
+      const second = now.getSeconds() * 6;
+      const minute = now.getMinutes() * 6;
+      const hour = ((now.getHours() % 12) + now.getMinutes() / 60) * 30;
 
-      const secDeg = second * 6;
-      const minDeg = minute * 6 + second * 0.1;
-      const hourDeg = ((hour % 12) + minute / 60) * 30;
-
-      document.getElementById('secondHand').style.transform = `rotate(${secDeg}deg) translateX(-50%)`;
-      document.getElementById('minuteHand').style.transform = `rotate(${minDeg}deg) translateX(-50%)`;
-      document.getElementById('hourHand').style.transform = `rotate(${hourDeg}deg) translateX(-50%)`;
+      document.getElementById('second').style.transform = `rotate(${second}deg)`;
+      document.getElementById('minute').style.transform = `rotate(${minute}deg)`;
+      document.getElementById('hour').style.transform = `rotate(${hour}deg)`;
     }
 
     setInterval(updateClock, 1000);
-    updateClock(); // Initial call
+    updateClock();
   </script>
 
 </body>
