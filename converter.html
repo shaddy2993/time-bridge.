@@ -8,6 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    /* Combined CSS */
     :root {
       --primary: #6c5ce7;
       --secondary: #a29bfe;
@@ -34,6 +35,50 @@
       align-items: center;
     }
 
+    /* Enhanced Logo Styles */
+    .logo {
+      display: inline-block;
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(to right, var(--accent), #ffffff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 0.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      text-decoration: none;
+      position: relative;
+      padding: 0 10px;
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+      text-shadow: 0 0 15px rgba(253, 121, 168, 0.4);
+    }
+
+    .logo:active {
+      transform: scale(0.98);
+    }
+
+    .logo::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(to right, var(--accent), var(--secondary));
+      transition: width 0.3s ease;
+    }
+
+    .logo:hover::after {
+      width: 100%;
+    }
+
+    /* Converter Container */
     .converter-container {
       background-color: rgba(30, 30, 30, 0.9);
       border-radius: 16px;
@@ -45,23 +90,13 @@
       margin-top: 2rem;
     }
 
-    .logo {
-      font-size: 2.5rem;
-      font-weight: 800;
-      background: linear-gradient(to right, var(--accent), #ffffff);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      margin-bottom: 0.5rem;
-      text-align: center;
-    }
-
     .tagline {
       color: rgba(255, 255, 255, 0.7);
       text-align: center;
       margin-bottom: 1.5rem;
     }
 
+    /* Form Elements */
     .form-group {
       margin-bottom: 1.5rem;
     }
@@ -89,6 +124,7 @@
       box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.3);
     }
 
+    /* Buttons */
     .btn {
       background: linear-gradient(135deg, var(--primary), var(--secondary));
       color: white;
@@ -110,6 +146,7 @@
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     }
 
+    /* Results Section */
     .result-container {
       margin-top: 2rem;
       padding: 1.5rem;
@@ -131,6 +168,7 @@
       margin-bottom: 1.5rem;
     }
 
+    /* Action Buttons */
     .action-buttons {
       display: flex;
       gap: 1rem;
@@ -165,7 +203,7 @@
       transform: translateY(-2px);
     }
 
-    /* Mobile responsiveness */
+    /* Mobile Responsiveness */
     @media (max-width: 768px) {
       .converter-container {
         padding: 1.5rem;
@@ -200,21 +238,23 @@
   </style>
 </head>
 <body>
-  <div class="logo">Time Bridge</div>
+  <!-- Logo linking back to landing page -->
+  <a href="https://time-bridge-qeew.vercel.app/" class="logo">Time Bridge</a>
   <p class="tagline">Convert meeting times across time zones</p>
 
+  <!-- Converter Form -->
   <div class="converter-container">
     <div class="form-group">
       <label for="sourceTimezone"><i class="fas fa-globe-americas"></i> Source Time Zone:</label>
       <select id="sourceTimezone" class="timezone-select">
-        <!-- Options will be populated by JavaScript -->
+        <!-- Options populated by JavaScript -->
       </select>
     </div>
 
     <div class="form-group">
       <label for="targetTimezone"><i class="fas fa-map-marker-alt"></i> Target Time Zone:</label>
       <select id="targetTimezone" class="timezone-select">
-        <!-- Options will be populated by JavaScript -->
+        <!-- Options populated by JavaScript -->
       </select>
     </div>
 
@@ -252,8 +292,9 @@
     </div>
   </div>
 
+  <!-- Combined JavaScript -->
   <script>
-    // Timezone data with more comprehensive list
+    // Timezone data
     const timezones = [
       { id: "GMT-12:00", name: "GMT-12:00 — International Date Line West" },
       { id: "GMT-11:00", name: "GMT-11:00 — Midway Island, Samoa" },
